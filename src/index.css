@@ -1,6 +1,10 @@
-body {
-  font-family: sans-serif;
-  background: #f9f9f9;
-  margin: 0;
-  padding: 1rem;
-}
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
