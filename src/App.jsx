@@ -18,20 +18,22 @@ const db = getDatabase(app);
 
 export default function ProgressTracker() {
   const [units, setUnits] = useState([]);
+  const [loading, setLoading] = useState(true);  // 新增 loading 狀態
 
-useEffect(() => {
-  const unitsRef = ref(db, 'units');
-  onValue(unitsRef, (snapshot) => {
-    const data = snapshot.val();
-    if (data) {
-      setUnits(Object.values(data));
-    }
-  }, (error) => {
-    console.error("Error loading data from Firebase:", error);
-    alert("Failed to load data!");
-  });
-}, []);
-
+  useEffect(() => {
+    const unitsRef = ref(db, 'units');
+    onValue(unitsRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        setUnits(Object.values(data));
+      }
+      setLoading(false);  // 數據加載完成，隱藏 loading
+    }, (error) => {
+      console.error("Error loading data from Firebase:", error);
+      alert("Failed to load data!");
+      setLoading(false);  // 出錯時也隱藏 loading
+    });
+  }, []);
 
   const handleCheckboxChange = (index, task) => {
     const updatedUnits = [...units];
@@ -50,6 +52,10 @@ useEffect(() => {
     });
     set(unitsRef, updateObj);
   };
+
+  if (loading) {
+    return <div>Loading...</div>;  // 顯示 Loading 狀態
+  }
 
   return (
     <div className="p-4 space-y-4">
