@@ -19,15 +19,19 @@ const db = getDatabase(app);
 export default function ProgressTracker() {
   const [units, setUnits] = useState([]);
 
-  useEffect(() => {
-    const unitsRef = ref(db, 'units');
-    onValue(unitsRef, (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        setUnits(Object.values(data));
-      }
-    });
-  }, []);
+useEffect(() => {
+  const unitsRef = ref(db, 'units');
+  onValue(unitsRef, (snapshot) => {
+    const data = snapshot.val();
+    if (data) {
+      setUnits(Object.values(data));
+    }
+  }, (error) => {
+    console.error("Error loading data from Firebase:", error);
+    alert("Failed to load data!");
+  });
+}, []);
+
 
   const handleCheckboxChange = (index, task) => {
     const updatedUnits = [...units];
