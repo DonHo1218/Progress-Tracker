@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "main": "src/index.js",
+  "type": "module",
   "dependencies": {
     "@babel/plugin-transform-class-properties": "^7.25.9",
     "@babel/plugin-transform-nullish-coalescing-operator": "^7.26.6",
